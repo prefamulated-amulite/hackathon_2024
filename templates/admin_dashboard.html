@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Admin {{ current_user.email }}</h1>
+    <h2>Employee Accounts</h2>
+    <a href="{{ url_for('create_employee') }}">Create New Employee</a>
+    <table border="1">
+        <tr>
+            <th>Email</th>
+        </tr>
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Candidate Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ current_user.email }}</h1>
+    <h2>Your Registrations</h2>
+    {% if registrations %}
+        <table border="1">
+            <tr>
+                <th>Time Slot</th>
+                <th>CV</th>
+                <th>Cover Letter</th>
+                <th>Registered On</th>
+            </tr>
+            {% for reg in registrations %}
+            <tr>
+                <td>{{ reg.time_slot }}</td>
+                <td><a href="{{ url_for('uploaded_file', filename=reg.cv_filename) }}">Download CV</a></td>
+                <td><a href="{{ url_for('uploaded_file', filename=reg.cover_letter_filename) }}">Download Cover Letter</a></td>
+                <td>{{ reg.registered_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>You have not registered for any interviews.</p>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
