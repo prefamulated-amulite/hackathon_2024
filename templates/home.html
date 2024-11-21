@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
     <title>Speed Interview Registration System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
     <h1>Welcome to the Speed Interview Registration System</h1>
-    <a href="{{ url_for('register') }}">Register for an Interview</a><br>
-    <a href="{{ url_for('login') }}">Candidate Login</a><br>
-    <a href="{{ url_for('employee_login') }}">Employee Login</a>
+    <a class="inline-flex w-fit cursor-pointer items-center justify-center rounded-5xl px-4 pt-[0.9em] pb-[0.75em] md:pt-[1.05em] md:pb-[0.85em] text-b-16 transition-colors duration-200 ease-in hover:duration-300 md:text-b-18 3xl:text-button-grow mt-2 border border-red text-red hover:bg-red hover:text-white" 
+        href="{{ url_for('register') }}"><span class="inline-block">Register for an Interview</span></a>
+    <a class="inline-flex w-fit cursor-pointer items-center justify-center rounded-5xl px-4 pt-[0.9em] pb-[0.75em] md:pt-[1.05em] md:pb-[0.85em] text-b-16 transition-colors duration-200 ease-in hover:duration-300 md:text-b-18 3xl:text-button-grow mt-2 border border-red text-red hover:bg-red hover:text-white" 
+    href="{{ url_for('login') }}"><span class="inline-block">Candidate Login</span></a>
+    <a class="inline-flex w-fit cursor-pointer items-center justify-center rounded-5xl px-4 pt-[0.9em] pb-[0.75em] md:pt-[1.05em] md:pb-[0.85em] text-b-16 transition-colors duration-200 ease-in hover:duration-300 md:text-b-18 3xl:text-button-grow mt-2 border border-red text-red hover:bg-red hover:text-white" 
+    href="{{ url_for('employee_login') }}"><span class="inline-block">Employee Login</span></a>
+    <a class="inline-flex w-fit cursor-pointer items-center justify-center rounded-5xl px-4 pt-[0.9em] pb-[0.75em] md:pt-[1.05em] md:pb-[0.85em] text-b-16 transition-colors duration-200 ease-in hover:duration-300 md:text-b-18 3xl:text-button-grow mt-2 border border-red text-red hover:bg-red hover:text-white" 
+    href="{{ url_for('register_intrest') }}"><span class="inline-block">Register intrest</span></a>
 </body>
 </html>

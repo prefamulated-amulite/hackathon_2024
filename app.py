@@ -109,6 +109,25 @@ class CandidateRegistrationForm(FlaskForm):
             validate_email(email.data)
         except EmailNotValidError as e:
             raise ValidationError(str(e))
+        
+class CandidateIntrestForm(FlaskForm):
+    email = StringField("Email", validators=[InputRequired(), Email(), Length(max=150)])
+    name = StringField("Name", validators=[InputRequired(), Length(max=150)])
+    password = PasswordField(
+        "Password", validators=[InputRequired(), Length(min=4, max=80)]
+    )
+    confirm_password = PasswordField(
+        "Confirm Password", validators=[InputRequired(), EqualTo("password")]
+    )
+    cv = FileField("Upload CV (PDF)", validators=[InputRequired()])
+    cover_letter = FileField("Upload Cover Letter (PDF)", validators=[InputRequired()])
+    submit = SubmitField("Register")
+
+    def validate_email(self, email):
+        try:
+            validate_email(email.data)
+        except EmailNotValidError as e:
+            raise ValidationError(str(e))
 
 
 class LoginForm(FlaskForm):
@@ -212,6 +231,41 @@ def create_employee():
         return redirect(url_for("employee_dashboard"))
 
     return render_template("create_employee.html", form=form)
+
+@app.route("/register_intrest",  methods=["GET", "POST"])
+def register_intrest():
+    form = CandidateIntrestForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        name = form.name.data
+        password = form.password.data
+        cv_file = form.cv.data
+        cover_letter_file = form.cover_letter.data
+
+        # Save uploaded files
+        cv_filename = secure_filename(cv_file.filename)
+        cover_letter_filename = secure_filename(cover_letter_file.filename)
+        cv_file.save(os.path.join(app.config["UPLOAD_FOLDER"], cv_filename))
+        cover_letter_file.save(
+            os.path.join(app.config["UPLOAD_FOLDER"], cover_letter_filename)
+        )
+
+        # Check if user exists
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(email=email)
+            user.password = password
+            db.session.add(user)
+            db.session.commit()
+        else:
+            flash("An account with this email already exists.", "warning")
+            return redirect(url_for("login"))
+        flash("Registration successful!", "success")
+        return redirect(url_for("home"))
+    return render_template("register_intrest.html", form=form)
+
+
+
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -355,5 +409,4 @@ if __name__ == "__main__":
         if not os.path.exists("database.db"):
             db.create_all()
             print("Database created.")
-
     app.run(debug=True)
